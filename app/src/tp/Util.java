@@ -1,5 +1,7 @@
+package tp;
+
 public interface Util {
-    String swap(String a);
+    String complement(String a);
 
     String[] fillToMatch(String a, String b);
 }

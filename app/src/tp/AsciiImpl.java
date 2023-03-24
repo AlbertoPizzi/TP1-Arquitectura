@@ -1,3 +1,5 @@
+package tp;
+
 public class AsciiImpl implements AsciiEncoder{
     @Override
     public String encode(String binary) {

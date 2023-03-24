@@ -1,3 +1,5 @@
+package tp;
+
 public class BCDEncoderImpl implements BCDEncoder{
     @Override
     public String encode(int a) {

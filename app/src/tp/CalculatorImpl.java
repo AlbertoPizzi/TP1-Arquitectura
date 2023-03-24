@@ -1,6 +1,7 @@
-import java.util.Arrays;
+package tp;
 
 public class CalculatorImpl implements Calculator, Util{
+    public CalculatorImpl(){}
     @Override
     public String sum(String a, String b) {
         String[] strings = fillToMatch(a, b);
@@ -28,10 +29,18 @@ public class CalculatorImpl implements Calculator, Util{
     }
 
     @Override
-    public String sub(String a, String b) {//Complemento a la base y sumamos
-        String[] strings = fillToMatch(a, b);
-        String bComplement = sum(swap(strings[1]),"1");
-        return sum(a,bComplement);
+    public String sub(String a, String b) {//substract using complement
+        String[] filled = fillToMatch(a, b);
+        a = filled[0];
+        b = filled[1];
+
+        b = complement(b);
+        String result = sum(a, b);
+
+        if (result.length() > a.length()) {
+            result = result.substring(1);
+        }
+        return result;
     }
 
     @Override
@@ -55,30 +64,31 @@ public class CalculatorImpl implements Calculator, Util{
     }
 
     @Override
-    public String swap(String a) {
-        return Arrays.toString(swap(a.toCharArray()));
-    }
-    private char[] swap(char[] a){
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] == '0')
-                a[i] = '1';
-            else
-                a[i] = '0';
-    }
-    return a;
+    public String complement(String a) {
+        String result = "";
+        for (int i = 0; i < a.length(); i++) {
+            if (a.charAt(i) == '0') {
+                result += "1";
+            } else {
+                result += "0";
+            }
+        }
+        return sum(result, "1");
     }
     @Override
-    public String[] fillToMatch(String a, String b) {
-        if (a.length() > b.length())
-            return new String[]{a,fillZeros(b, a.length()-b.length())};
-        else if (a.length() < b.length())
-            return new String[]{fillZeros(a, b.length()-a.length()),b};
-        else return new String[]{a, b};
-    }
-    private String fillZeros(String a, int length){
-        char[] zeros = new char[length - a.length()];
-        Arrays.fill(zeros, '0');
-        return new String(zeros) + a;
+    public  String[] fillToMatch(String a, String b) {
+        int maxLength = Math.max(a.length(), b.length());
+        StringBuilder aBuilder = new StringBuilder(a);
+        while (aBuilder.length() < maxLength) {
+            aBuilder.insert(0, "0");
+        }
+        a = aBuilder.toString();
+        StringBuilder bBuilder = new StringBuilder(b);
+        while (bBuilder.length() < maxLength) {
+            bBuilder.insert(0, "0");
+        }
+        b = bBuilder.toString();
+        return new String[]{a, b};
     }
 
 }
