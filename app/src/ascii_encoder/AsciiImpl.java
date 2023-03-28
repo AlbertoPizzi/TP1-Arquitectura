@@ -1,4 +1,4 @@
-package tp;
+package ascii_encoder;
 
 public class AsciiImpl implements AsciiEncoder{
     @Override

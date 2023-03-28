@@ -1,5 +1,4 @@
-package tp;
-
+package calculator;
 public interface Calculator {
     String sum(String a, String b);
     String sub(String a, String b);

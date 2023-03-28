@@ -1,9 +1,12 @@
-package tp;
+package bcd_encoder;
+
+import util.BinaryChecker;
 
 public class BCDEncoderImpl implements BCDEncoder {
 
     @Override
     public String encode(int a) {
+        BinaryChecker.validateInputForEncoding(a);
         String decimalStr = String.valueOf(a);
         StringBuilder bcdBuilder = new StringBuilder();
 
@@ -20,6 +23,7 @@ public class BCDEncoderImpl implements BCDEncoder {
 
     @Override
     public int decode(String a) {
+        BinaryChecker.validateInputForDecoding(a);
         StringBuilder decimalBuilder = new StringBuilder();
 
         for (int i = 0; i < a.length(); i += 4) {

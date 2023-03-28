@@ -1,4 +1,4 @@
-package tp;
+package ascii_encoder;
 
 public interface AsciiEncoder {
     String encode(String binary);

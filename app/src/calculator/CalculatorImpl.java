@@ -1,9 +1,14 @@
-package tp;
+package calculator;
 
-public class CalculatorImpl implements Calculator, Util{
+import util.BinaryChecker;
+import util.BinaryManipulator;
+
+public class CalculatorImpl implements Calculator, BinaryManipulator {
     public CalculatorImpl(){}
     @Override
-    public String sum(String a, String b) {
+    public String sum(String a, String b){
+        BinaryChecker.checkIsBinaryNumber(a);
+        BinaryChecker.checkIsBinaryNumber(b);
         String[] strings = fillToMatch(a, b);
         char[] a1 = strings[0].toCharArray();
         char[] b1 = strings[1].toCharArray();
@@ -29,11 +34,14 @@ public class CalculatorImpl implements Calculator, Util{
     }
 
     @Override
-    public String sub(String a, String b) {//substract using complement
+    public String sub(String a, String b){//substract using complement
+        BinaryChecker.checkIsBinaryNumber(a);
+        BinaryChecker.checkIsBinaryNumber(b);
+
         String[] filled = fillToMatch(a, b);
         a = filled[0];
         b = filled[1];
-
+        if (b.length() > a.length() || (b.length() == a.length() && b.compareTo(a) > 0)) {throw new IllegalArgumentException("Subtraction cannot result in a negative value");}
         b = complement(b);
         String result = sum(a, b);
 
@@ -64,7 +72,8 @@ public class CalculatorImpl implements Calculator, Util{
     }
 
     @Override
-    public String complement(String a) {
+    public String complement(String a){
+        BinaryChecker.checkIsBinaryNumber(a);
         String result = "";
         for (int i = 0; i < a.length(); i++) {
             if (a.charAt(i) == '0') {
@@ -76,7 +85,9 @@ public class CalculatorImpl implements Calculator, Util{
         return sum(result, "1");
     }
     @Override
-    public  String[] fillToMatch(String a, String b) {
+    public  String[] fillToMatch(String a, String b){
+        BinaryChecker.checkIsBinaryNumber(a);
+        BinaryChecker.checkIsBinaryNumber(b);
         int maxLength = Math.max(a.length(), b.length());
         StringBuilder aBuilder = new StringBuilder(a);
         while (aBuilder.length() < maxLength) {
