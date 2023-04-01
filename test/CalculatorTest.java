@@ -54,7 +54,22 @@ public class CalculatorTest {
     @Test
     public void divTest(){
         CalculatorImpl calculator = new CalculatorImpl();
-        String result = calculator.div("101010","110"); // 42 / 6 = 7
+        String result = calculator.div("101010","110"); // 42 / 7 = 7
         assert result.equals("0111");
     }
+
+    @Test
+    public void hexTest(){
+        CalculatorImpl calculator = new CalculatorImpl();
+        String result = calculator.toHex("101010"); // 42 = 2A
+        assert result.equals("2A");
+    }
+
+    @Test
+    public void fromHexTest(){
+        CalculatorImpl calculator = new CalculatorImpl();
+        String result = calculator.fromHex("2A"); // 2A = 42
+        assert result.equals("00101010");
+    }
+
 }

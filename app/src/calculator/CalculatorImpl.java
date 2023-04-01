@@ -34,7 +34,8 @@ public class CalculatorImpl implements Calculator, BinaryManipulator {
     }
 
     @Override
-    public String sub(String a, String b){//substract using complement
+    public String sub(String a, String b){
+        //subtract using complement
         BinaryChecker.checkIsBinaryNumber(a);
         BinaryChecker.checkIsBinaryNumber(b);
 
@@ -100,7 +101,7 @@ public class CalculatorImpl implements Calculator, BinaryManipulator {
                 result = result + "0";
             }
         }
-        return result.toString();
+        return result;
     }
 
     private int binaryToDecimal(String binary){
@@ -118,16 +119,85 @@ public class CalculatorImpl implements Calculator, BinaryManipulator {
         return result;
     }
 
+    private char decimalToHexadecimal(int decimal) {
+        if (decimal >= 0 && decimal <= 9) {
+            return (char) ('0' + decimal);
+        } else {
+            return (char) ('A' + (decimal - 10));
+        }
+    }
+
     @Override
     public String toHex(String binary) {
-        return null;
+        //this pads the binary string with zeros on the left until its length is a multiple of 4
+        while (binary.length() % 4 != 0) {
+            binary = "0" + binary;
+        }
+
+        StringBuilder hexBuilder = new StringBuilder();
+
+        //loops through the binary string in groups of 4 digits
+        for (int i = 0; i < binary.length(); i += 4) {
+            String binaryDigit = binary.substring(i, i + 4);
+            int decimalValue = binaryToDecimal(binaryDigit);
+            char hexDigit = decimalToHexadecimal(decimalValue);
+            hexBuilder.append(hexDigit);
+        }
+
+        return hexBuilder.toString();
     }
 
     @Override
     public String fromHex(String hex) {
-        return null;
+        StringBuilder binaryBuilder = new StringBuilder();
+        //loops through each hexadecimal digit and convert it to its corresponding binary value
+        for (int i = 0; i < hex.length(); i++) {
+            char hexDigit = hex.charAt(i);
+            String binaryDigit = hexDigitToBinary(hexDigit);
+            binaryBuilder.append(binaryDigit);
+        }
+        return binaryBuilder.toString();
+    }
+    private String hexDigitToBinary(char hexDigit) {
+        int decimalValue;
+
+        if (hexDigit >= '0' && hexDigit <= '9') {
+            decimalValue = hexDigit - '0';
+        } else if (hexDigit >= 'A' && hexDigit <= 'F') {
+            decimalValue = hexDigit - 'A' + 10;
+        } else if (hexDigit >= 'a' && hexDigit <= 'f') {
+            decimalValue = hexDigit - 'a' + 10;
+        } else {
+            throw new IllegalArgumentException("Invalid hexadecimal digit: " + hexDigit);
+        }
+        //converts the decimal value to a binary string with leading zeros
+        String binaryString = decimalToBinary(decimalValue);
+        int numLeadingZeros = 4 - binaryString.length();
+        StringBuilder binaryBuilder = new StringBuilder();
+
+        for (int i = 0; i < numLeadingZeros; i++) {
+            binaryBuilder.append('0');
+        }
+
+        binaryBuilder.append(binaryString);
+        return binaryBuilder.toString();
     }
 
+    private String decimalToBinary(int decimal) {
+        if (decimal == 0) {
+            return "0";
+        }
+
+        StringBuilder binaryBuilder = new StringBuilder();
+
+        while (decimal > 0) {
+            int remainder = decimal % 2;
+            binaryBuilder.insert(0, remainder);
+            decimal /= 2;
+        }
+
+        return binaryBuilder.toString();
+    }
     @Override
     public String complement(String a){
         BinaryChecker.checkIsBinaryNumber(a);
