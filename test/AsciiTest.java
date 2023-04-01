@@ -8,11 +8,11 @@ public class AsciiTest {
 
     @Test
     public void test001_encoderTestSuccess() {
-        assertEquals("65", encoder.encode("01000001"));
-        assertEquals("66", encoder.encode("01000010"));
-        assertEquals("67", encoder.encode("01000011"));
-        assertEquals("68", encoder.encode("01000100"));
-        assertEquals("69", encoder.encode("01000101"));
+        assertEquals("A", encoder.encode("01000001"));
+        assertEquals("B", encoder.encode("01000010"));
+        assertEquals("C", encoder.encode("01000011"));
+        assertEquals("D", encoder.encode("01000100"));
+        assertEquals("E", encoder.encode("01000101"));
 
     }
     @Test
