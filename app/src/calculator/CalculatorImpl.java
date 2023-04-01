@@ -53,12 +53,69 @@ public class CalculatorImpl implements Calculator, BinaryManipulator {
 
     @Override
     public String mult(String a, String b) {
-        return null;
+        BinaryChecker.checkIsBinaryNumber(a);
+        BinaryChecker.checkIsBinaryNumber(b);
+        String[] filled = fillToMatch(a, b);
+        a = filled[0];
+        b = filled[1];
+
+        int m = a.length(), n = b.length();
+        int[] position = new int[m + n];
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                int mul = (a.charAt(i) - '0') * (b.charAt(j) - '0');
+                int p1 = i + j, p2 = i + j + 1;
+                int sum = mul + position[p2];
+                position[p1] += sum / 10;
+                position[p2] = (sum) % 10;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int p : position) if (!(sb.length() == 0 && p == 0)) sb.append(p);
+        return sb.length() == 0 ? "0" : sb.toString();
     }
+
 
     @Override
     public String div(String a, String b) {
-        return null;
+        BinaryChecker.checkIsBinaryNumber(a);
+        BinaryChecker.checkIsBinaryNumber(b);
+        if (b.length() > a.length() || (b.length() == a.length() && b.compareTo(a) > 0)) {
+            throw new IllegalArgumentException("Division cannot result in a negative value");
+        }
+        if (b.equals("0")) {
+            throw new IllegalArgumentException("Division by zero is not allowed");
+        }
+        String result = "";
+        String temp_a = a.substring(0, b.length());
+
+        for (int i = b.length(); i < a.length() + 1; i++) {
+            if (binaryToDecimal(temp_a) >=  binaryToDecimal(b)) {
+                temp_a = sub(temp_a, b);
+                temp_a = temp_a.substring(1);
+                if (i < a.length()) {temp_a = temp_a + a.charAt(i);}
+                result = result + "1";
+            } else {
+                if (i < a.length()) {temp_a = temp_a + a.charAt(i);}
+                result = result + "0";
+            }
+        }
+        return result.toString();
+    }
+
+    private int binaryToDecimal(String binary){
+        int result = 0;
+        int power = 1;
+        for (int i = binary.length() -1; i >= 0; i--) {
+            char c = binary.charAt(i);
+
+            if (c == '1') {
+                result += power;
+            }
+
+            power *= 2;
+        }
+        return result;
     }
 
     @Override

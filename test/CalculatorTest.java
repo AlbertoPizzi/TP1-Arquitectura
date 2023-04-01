@@ -44,4 +44,17 @@ public class CalculatorTest {
         Exception exception =  assertThrows(IllegalArgumentException.class, () -> calculator.sub("00000000111","1001000"));
         assertEquals("Subtraction cannot result in a negative value", exception.getMessage());
     }
+
+    @Test
+    public void multTest(){
+        CalculatorImpl calculator = new CalculatorImpl();
+        String result = calculator.mult("00111","1001000"); // 7 * 72 = 504
+        assert result.equals("111111000");
+    }
+    @Test
+    public void divTest(){
+        CalculatorImpl calculator = new CalculatorImpl();
+        String result = calculator.div("101010","110"); // 42 / 6 = 7
+        assert result.equals("0111");
+    }
 }
